@@ -18,7 +18,6 @@ public class Cell {
         this.color = Color.WHITE;
     }
 
-    // --- State Management ---
     public void setWall(boolean isWall) {
         this.isWall = isWall;
         this.color = isWall ? Color.BLACK : Color.WHITE;
@@ -49,7 +48,6 @@ public class Cell {
         }
     }
 
-    // For HashMap key/value
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,3 +61,4 @@ public class Cell {
         return 31 * row + col;
     }
 }
+
