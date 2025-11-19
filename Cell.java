@@ -39,11 +39,10 @@ public class Cell {
     public Color getColor() { return color; }
 
     public void setColor(Color color) {
-        // Prevent overwriting permanent markers unless explicitly animating Start/End
+        
         if (!isStart && !isEnd && !isWall) {
             this.color = color;
         } else if (isStart || isEnd) {
-             // Allow temporary animation on start/end nodes
              this.color = color;
         }
     }
@@ -61,4 +60,5 @@ public class Cell {
         return 31 * row + col;
     }
 }
+
 
