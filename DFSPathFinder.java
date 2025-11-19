@@ -29,8 +29,7 @@ public class DFSPathFinder implements PathFinder {
              }
 
              List<Cell> neighbors = adjacencyList.getOrDefault(current, Collections.emptyList());
-             // Reverse neighbors to promote a "branch first" exploration look
-             
+            
              List<Cell> neighborsToVisit = new ArrayList<>(neighbors);
              Collections.reverse(neighborsToVisit);
 
@@ -58,4 +57,5 @@ public class DFSPathFinder implements PathFinder {
      Collections.reverse(path);
      return path;
  }
+
 }
