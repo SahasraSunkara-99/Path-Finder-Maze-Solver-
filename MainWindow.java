@@ -27,7 +27,6 @@ public class MainWindow extends JFrame {
  private void initUI() {
      setLayout(new BorderLayout());
 
-     // --- 1. Control Panel (Top) ---
      JPanel controlPanel = new JPanel();
      controlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
@@ -48,7 +47,6 @@ public class MainWindow extends JFrame {
      controlPanel.add(bfsButton);
      controlPanel.add(dfsButton);
      
-     // --- 2. Status Bar (Bottom) ---
      statusLabel = new JLabel("Status: Ready. Click 'Draw Walls' and then the grid.", SwingConstants.CENTER);
      statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
@@ -59,7 +57,6 @@ public class MainWindow extends JFrame {
      attachListeners();
  }
  
- // --- Animation Engine Class (Inner Class implementing SwingWorker) ---
  public class AnimationEngine extends SwingWorker<List<Cell>, Cell> {
      private final PathFinder pathFinder;
      private final boolean isBFS;
@@ -70,7 +67,7 @@ public class MainWindow extends JFrame {
      public AnimationEngine(PathFinder pathFinder, boolean isBFS) {
     	    this.pathFinder = pathFinder;
     	    this.isBFS = isBFS;
-    	    // Only clear previous path/visited colors, keep walls/start/end intact
+    	   
     	    mazePanel.clearPathHighlights();
 
     	    setSolverButtonsEnabled(false);
@@ -83,7 +80,6 @@ public class MainWindow extends JFrame {
          TimeUnit.MILLISECONDS.sleep(VISITED_DELAY_MS);
      }
 
-     // Runs on a background thread
      @Override
      protected List<Cell> doInBackground() {
          Cell start = mazePanel.getStartCell();
@@ -95,7 +91,6 @@ public class MainWindow extends JFrame {
          return pathFinder.findPath(start, end, adjList, this);
      }
 
-     // Runs on the EDT (UI thread) - receives published cells
      @Override
      protected void process(List<Cell> chunks) {
          for (Cell cell : chunks) {
@@ -106,8 +101,6 @@ public class MainWindow extends JFrame {
              mazePanel.repaint();
          }
      }
-     
-     // Runs on the EDT (UI thread) - after doInBackground completes
      @Override
      protected void done() {
          try {
@@ -117,7 +110,6 @@ public class MainWindow extends JFrame {
              } else if (path.isEmpty()) {
                  statusLabel.setText("Status: No path found! Maze is blocked.");
              } else {
-                 // Animate Final Path
                  animatePath(path);
                  statusLabel.setText("Status: Path found! Total steps: " + (path.size() - 1) + (isBFS ? " (Optimal - BFS)" : " (Depth-First - DFS)"));
              }
@@ -141,14 +133,12 @@ public class MainWindow extends JFrame {
      }
  }
  
- // --- Listener Setup ---
  private void attachListeners() {
-     // Mode buttons
+    
      startButton.addActionListener(e -> setMode("Start", startButton));
      endButton.addActionListener(e -> setMode("End", endButton));
      wallButton.addActionListener(e -> setMode("Wall", wallButton));
 
-     // Action buttons
      clearButton.addActionListener(e -> {
          mazePanel.clearMaze();
          statusLabel.setText("Status: Maze cleared. Ready.");
@@ -161,11 +151,11 @@ public class MainWindow extends JFrame {
  
  private void setMode(String mode, JButton selectedButton) {
      mazePanel.setMode(mode);
-     // Reset colors
+
      startButton.setBackground(UIManager.getColor("Button.background"));
      endButton.setBackground(UIManager.getColor("Button.background"));
      wallButton.setBackground(UIManager.getColor("Button.background"));
-     // Highlight selected
+    
      selectedButton.setBackground(Color.LIGHT_GRAY);
      statusLabel.setText("Status: Ready to set *" + mode.toUpperCase() + "* cells.");
  }
@@ -188,4 +178,5 @@ public class MainWindow extends JFrame {
      
      SwingUtilities.invokeLater(MainWindow::new);
  }
+
 }
