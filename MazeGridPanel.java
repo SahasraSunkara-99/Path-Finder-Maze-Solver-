@@ -9,7 +9,7 @@ public class MazeGridPanel extends JPanel {
     private final int CELL_SIZE = 30;
 
     private Cell[][] grid;
-    private String currentMode = "Wall"; // Wall, Start, End
+    private String currentMode = "Wall"; 
     private Cell startCell = null;
     private Cell endCell = null;
 
@@ -19,9 +19,6 @@ public class MazeGridPanel extends JPanel {
         attachListeners();
     }
 
-    // --------------------------
-    // Grid Initialization
-    // --------------------------
     private void initializeGrid() {
         grid = new Cell[ROWS][COLS];
 
@@ -40,9 +37,6 @@ public class MazeGridPanel extends JPanel {
 
     public void setMode(String mode) { this.currentMode = mode; }
 
-    // --------------------------
-    // Clear maze completely
-    // --------------------------
     public void clearMaze() {
         startCell = null;
         endCell = null;
@@ -50,15 +44,11 @@ public class MazeGridPanel extends JPanel {
         repaint();
     }
 
-    // --------------------------
-    // Clear solver highlights only
-    // --------------------------
     public void clearPathHighlights() {
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 Cell cell = grid[r][c];
 
-                // Keep walls/start/end colors; reset only solver coloring
                 if (!cell.isWall() && !cell.isStart() && !cell.isEnd()) {
                     cell.setColor(Color.WHITE);
                 }
@@ -67,9 +57,6 @@ public class MazeGridPanel extends JPanel {
         repaint();
     }
 
-    // --------------------------
-    // Painting the grid
-    // --------------------------
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -81,7 +68,6 @@ public class MazeGridPanel extends JPanel {
                 int x = c * CELL_SIZE;
                 int y = r * CELL_SIZE;
 
-                // Cell background
                 g2d.setColor(cell.getColor());
                 g2d.fillRect(x, y, CELL_SIZE, CELL_SIZE);
 
@@ -102,9 +88,6 @@ public class MazeGridPanel extends JPanel {
         }
     }
 
-    // --------------------------
-    // Mouse listener
-    // --------------------------
     private void attachListeners() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -112,7 +95,6 @@ public class MazeGridPanel extends JPanel {
                 int col = e.getX() / CELL_SIZE;
                 int row = e.getY() / CELL_SIZE;
 
-                // Out of bounds
                 if (row < 0 || col < 0 || row >= ROWS || col >= COLS) return;
 
                 Cell clicked = grid[row][col];
@@ -136,9 +118,6 @@ public class MazeGridPanel extends JPanel {
         });
     }
 
-    // --------------------------
-    // Helper functions
-    // --------------------------
     private void placeStartCell(Cell clicked) {
         if (startCell != null) {
             startCell.setStart(false);
@@ -171,4 +150,5 @@ public class MazeGridPanel extends JPanel {
 
         clicked.setColor(newWallState ? Color.BLACK : Color.WHITE);
     }
+
 }
