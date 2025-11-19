@@ -16,8 +16,8 @@ public class GraphBuilder {
     public HashMap<Cell, List<Cell>> buildGraph(Cell[][] grid) {
         HashMap<Cell, List<Cell>> adjacencyList = new HashMap<>();
 
-        int[] dr = {-1, 1, 0, 0}; // Up, Down
-        int[] dc = {0, 0, -1, 1}; // Left, Right
+        int[] dr = {-1, 1, 0, 0}; 
+        int[] dc = {0, 0, -1, 1}; 
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -27,7 +27,6 @@ public class GraphBuilder {
 
                 adjacencyList.put(currentCell, new ArrayList<>());
 
-                // Check 4 neighbors
                 for (int i = 0; i < 4; i++) {
                     int nr = r + dr[i];
                     int nc = c + dc[i];
@@ -43,4 +42,5 @@ public class GraphBuilder {
         }
         return adjacencyList;
     }
+
 }
